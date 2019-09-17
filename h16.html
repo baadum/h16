@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            
+            background-color: #1C1C1C;
+            color: white;
+        }
+        nav ul {
+            position: relative;
+            padding: 0px;
+            width: 10rem;
+            list-style: none;
+            background-color: #1C1C1C;
+            border: 2px solid #2F353B;
+        }
+        nav ul li > ul  {
+            display: none;
+            position: absolute;
+            left: 10rem;
+            top: 50%;
+        }
+
+        nav ul li.block > ul  {
+            display: block;
+        }
+
+        nav ul li a {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding-left: 2rem;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #2271B3;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <script>
+        arr = [
+            {
+                listName : 'item - 1',
+                link: 'https://www.youtube.com',
+            },
+            {
+                listName : 'item - 2',
+                link: 'https://www.youtube.com',
+            },
+            {
+                listName : 'item - 3',
+                listInner : [
+                    {listName : 'item - 3-1'},
+                    {listName : 'item - 3-2'},
+                    {listName : 'item - 3-3'},
+                    {listName : 'item - 3-4'},
+                ]
+            },
+            {
+                listName : 'item - 4',
+                listInner : [
+                    {listName : 'item - 4-1'},
+                    {listName : 'item - 4-2'},
+                    {listName : 'item - 4-3'},
+                    {listName : 'item - 4-4'},
+                ]
+            },
+        ];
+
+        const nav = document.createElement('nav');
+        document.body.prepend(nav);
+
+        const renderListItem = (arr, parrentSelector) => {
+            const list = document.createElement('ul');
+            list.classList.add('list');
+
+                arr.forEach (item => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('list_item');
+
+                const listItemLink = document.createElement('a');
+                // listItemLink.setAttribute('href', item.link);
+                listItemLink.innerText = item.listName;
+                
+                // if (!item.link) {
+                //     listItemLink.setAttribute('href','https://www.google.com.ua');
+                // }
+
+                if (item.listInner) {
+                    renderListItem(item.listInner, listItem);  
+
+                    listItem.addEventListener('click', e => {
+                        // console.log(e.target)
+                        listItem.classList.toggle('block');
+                    }); 
+                }
+
+                listItem.prepend(listItemLink);
+                list.append(listItem);
+
+            });
+            parrentSelector.prepend(list);
+        }
+        renderListItem(arr, nav);
+
+    //     Вам нужно расширить ваше меню из прошлого задания и добавить показ выпадающего меню по клику
+    // + перед переходом по ссылке - спрашивать, уверен ли пользователь, что хочет покинуть текущую страницу
+
+        const allListItems = document.querySelectorAll('li');
+
+        const overLink = (arr,quest) => {
+            arr.forEach (item => {
+                item.addEventListener('click', e => {
+                    e.preventDefault();
+
+                    const ans = confirm(quest);
+                    if(ans) {
+                        const link = e.target.getAttribute('href');
+                        window.location.href = link;
+                    }
+                });
+            })
+        };
+
+        // overLink(allListItems, 'Ты уверен, что хочешь покинуть текущую страницу?');
+
+    </script>
+</body>
+</html>

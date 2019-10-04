@@ -46,9 +46,12 @@
 
     </style>
 </head>
-<body>
-    
+<body>    
     <script>
+
+        //     Вам нужно расширить ваше меню из прошлого задания и добавить показ выпадающего меню по клику
+        // + перед переходом по ссылке - спрашивать, уверен ли пользователь, что хочет покинуть текущую страницу
+
         arr = [
             {
                 listName : 'item - 1',
@@ -90,20 +93,14 @@
                 listItem.classList.add('list_item');
 
                 const listItemLink = document.createElement('a');
-                // listItemLink.setAttribute('href', item.link);
                 listItemLink.innerText = item.listName;
                 
-                // if (!item.link) {
-                //     listItemLink.setAttribute('href','https://www.google.com.ua');
-                // }
-
+                if (item.link) {
+                    listItemLink.setAttribute('href', item.link);
+                }
+            
                 if (item.listInner) {
-                    renderListItem(item.listInner, listItem);  
-
-                    listItem.addEventListener('click', e => {
-                        // console.log(e.target)
-                        listItem.classList.toggle('block');
-                    }); 
+                    renderListItem(item.listInner, listItem);
                 }
 
                 listItem.prepend(listItemLink);
@@ -113,27 +110,52 @@
             parrentSelector.prepend(list);
         }
         renderListItem(arr, nav);
+        
 
-    //     Вам нужно расширить ваше меню из прошлого задания и добавить показ выпадающего меню по клику
-    // + перед переходом по ссылке - спрашивать, уверен ли пользователь, что хочет покинуть текущую страницу
+        const list = document.querySelector('.list')
+        const menuShow = list.addEventListener('click',(e)=> { 
+   
+            const allListBlock = Array.from(document.querySelectorAll('.list_item.block'));
 
-        const allListItems = document.querySelectorAll('li');
+            allListBlock.forEach(item => {
+                item.classList.remove('block');
+            });
 
+            let li = e.target.closest('li')     
+            if(li.className == 'list_item' && li.childNodes.length > 1){
+                li.classList.toggle('block');
+            }
+        })
+
+        // const allListItems = Array.from(document.querySelectorAll('li >a[href^="https:"]'));
+        //     allListItems.forEach (item => {
+        //         item.addEventListener('click', e => {
+        //             e.preventDefault();
+        //             console.log(allListItems);
+        //             const ans = confirm('Ты уверен, что хочешь покинуть текущую страницу?');
+        //             if(ans) {
+        //                 const link = e.target.getAttribute('href');
+        //                 window.location.href = link;
+        //             }
+        //         });
+        //     });
+
+        const allListItems = document.querySelectorAll('li >a[href^="https:"]');
         const overLink = (arr,quest) => {
             arr.forEach (item => {
-                item.addEventListener('click', e => {
-                    e.preventDefault();
-
-                    const ans = confirm(quest);
-                    if(ans) {
-                        const link = e.target.getAttribute('href');
-                        window.location.href = link;
-                    }
-                });
+                    item.addEventListener('click', e => {
+                        e.preventDefault();
+                        console.log(allListItems);
+                        const ans = confirm(quest);
+                        if(ans) {
+                            const link = e.target.getAttribute('href');
+                            window.location.href = link;
+                        }
+                    });
             })
         };
 
-        // overLink(allListItems, 'Ты уверен, что хочешь покинуть текущую страницу?');
+         overLink(allListItems, 'Ты уверен, что хочешь покинуть текущую страницу?');
 
     </script>
 </body>

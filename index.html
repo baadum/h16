@@ -91,54 +91,54 @@
                 arr.forEach (item => {
                 const listItem = document.createElement('li');
                 listItem.classList.add('list_item');
-
                 const listItemLink = document.createElement('a');
-                listItemLink.innerText = item.listName;
-                
+                listItemLink.innerText = item.listName;              
                 if (item.link) {
                     listItemLink.setAttribute('href', item.link);
                 }
-            
                 if (item.listInner) {
                     renderListItem(item.listInner, listItem);
                 }
-
                 listItem.prepend(listItemLink);
                 list.append(listItem);
-
             });
+
             parrentSelector.prepend(list);
         }
-        renderListItem(arr, nav);
         
+        renderListItem(arr, nav);
 
-        const list = document.querySelector('.list')
-        const menuShow = list.addEventListener('click',(e)=> { 
-   
-            const allListBlock = Array.from(document.querySelectorAll('.list_item.block'));
+        const ul = document.querySelector('ul');
+        ul.addEventListener('click',(e)=> {
+            const allListBlock = document.querySelectorAll('.list_item.block');
 
             allListBlock.forEach(item => {
                 item.classList.remove('block');
             });
 
             let li = e.target.closest('li')     
-            if(li.className == 'list_item' && li.childNodes.length > 1){
+            if(li.className === 'list_item' && li.childNodes.length > 1){
                 li.classList.toggle('block');
             }
         })
 
-        // const allListItems = Array.from(document.querySelectorAll('li >a[href^="https:"]'));
-        //     allListItems.forEach (item => {
-        //         item.addEventListener('click', e => {
-        //             e.preventDefault();
-        //             console.log(allListItems);
-        //             const ans = confirm('Ты уверен, что хочешь покинуть текущую страницу?');
-        //             if(ans) {
-        //                 const link = e.target.getAttribute('href');
-        //                 window.location.href = link;
-        //             }
-        //         });
+        // Зачем ты делаешь массив из nodeList? Сколько должно пройти лет, чтоб я не видел == вместо ===???????? 
+        // И почему на ссылках нет делегирования событий, зачем каждой назначать свой обработчик? :
+        
+        // const list = document.querySelector('.list')
+        // const menuShow = list.addEventListener('click',(e)=> { 
+   
+        //     const allListBlock = Array.from(document.querySelectorAll('.list_item.block'));
+
+        //     allListBlock.forEach(item => {
+        //         item.classList.remove('block');
         //     });
+
+        //     let li = e.target.closest('li')     
+        //     if(li.className === 'list_item' && li.childNodes.length > 1){
+        //         li.classList.toggle('block');
+        //     }
+        // })
 
         const allListItems = document.querySelectorAll('li >a[href^="https:"]');
         const overLink = (arr,quest) => {
